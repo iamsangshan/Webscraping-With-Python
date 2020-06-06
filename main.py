@@ -11,7 +11,7 @@ page = requests.get(
   'https://forecast.weather.gov/MapClick.php?lat=34.099695000000054&lon=-118.33539999999999#.XtjMPTozY2w'
 )
 
-#get the page source code
+#get the page source code.
 soup = BeautifulSoup(page.content, 'html.parser')
 week = soup.find(id='seven-day-forecast-body')
 
