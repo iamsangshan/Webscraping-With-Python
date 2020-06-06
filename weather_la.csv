@@ -1,10 +1,10 @@
 ,periods,descrs,temps
-0,Today,Sunny,High: 84 °F
-1,Tonight,Patchy Fog,Low: 61 °F
-2,Friday,Patchy Fogthen MostlySunny,High: 72 °F
-3,FridayNight,PatchyDrizzle,Low: 58 °F
-4,Saturday,Partly Sunny,High: 73 °F
-5,SaturdayNight,Mostly Clear,Low: 57 °F
-6,Sunday,Sunny,High: 76 °F
-7,SundayNight,Clear,Low: 56 °F
-8,Monday,Sunny,High: 83 °F
+0,Today,PatchyDrizzle thenMostly Sunny,High: 73 °F
+1,Tonight,Mostly Clear,Low: 57 °F
+2,Sunday,Sunny,High: 78 °F
+3,SundayNight,Clear,Low: 57 °F
+4,Monday,Sunny,High: 85 °F
+5,MondayNight,Clear,Low: 64 °F
+6,Tuesday,Sunny,High: 92 °F
+7,TuesdayNight,Clear,Low: 66 °F
+8,Wednesday,Sunny,High: 93 °F

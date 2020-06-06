@@ -1,40 +1,77 @@
-#Web scraping
+#Web scraping and creating a CSV file with Pollution data of a City
 
 #Get the air quality of a location and put into a CSV file
 
+#import all the modules required
 import pandas
 import requests
 from bs4 import BeautifulSoup
+import replit
 
-# get the page
+#replit.clear()
+
+#get the entire page source code (unless they take this link down, this code should continue to work)
 page = requests.get(
-  'https://forecast.weather.gov/MapClick.php?lat=34.099695000000054&lon=-118.33539999999999#.XtjMPTozY2w'
+    "https://air-quality.com/place/india/bengaluru/f8edf853?lang=en&standard=aqi_us"
 )
 
-#get the page source code.
-soup = BeautifulSoup(page.content, 'html.parser')
-week = soup.find(id='seven-day-forecast-body')
+#make it to a beautiful soup object, so we can scrape easily
+soup = BeautifulSoup(page.content, "html.parser")
 
-#get the daily air quality forecast content
+#get the weekly content from the soup object. If the container we're interested in doesn't have an id, use class
+week = soup.find(class_="daily-forecast-scroll")
 
-items = week.find_all(class_="tombstone-container")
+#get all week's data elements and put into a list
+pollution_all_week = week.find_all(class_="forecast-item")
 
-# LIST COMPREHENESION  
-period_names = [item.find(class_="period-name").get_text() for item in items]
-#print(period)
-descriptions = [item.find(class_="short-desc").get_text() for item in items]
-#print(descriptions)
-temperatures = [item.find(class_="temp").get_text()  for item in items]
-#print(temperatures)
 
-weatherStuff = pandas.DataFrame(
-  {
-    'periods' : period_names,
-    'descrs'  : descriptions,
-    'temps'   : temperatures,
-  },
-)
+# This is one way to do it, other way is List comprehenstion
+# But through this way, we can avoid multiple for loops.
+# Init the lists you need.
+dates = []
+temps = []
+poll_indices = []
+short_descs = []
 
-print(weatherStuff)
+#Start scraping all the data you need now.
+for pollution_data in pollution_all_week:
+    #date
+    dates.append(pollution_data.find(class_='date').get_text())
 
-weatherStuff.to_csv("weather_la.csv")
+    #templow and temphigh
+    temps.append(pollution_data.find(class_='temperature temp_c').get_text())
+
+    #pollution index - took almost 3 hrs *!*
+    level_1 = pollution_data.find(class_="value-wrap")
+    if (level_1):
+      level_2 = level_1.find(class_="value")
+      level_3 = level_2.find("span")
+      poll_indices.append(level_3.string)
+    else:
+      poll_indices.append("N/A")
+
+    #short description - dont know if its an ugly hack or a genius solution. I think its the former
+    level_1 = pollution_data.find(class_="value-wrap")
+    if (level_1):
+      level_2 = level_1.find(class_="value")
+      level_3 = level_2.find("span")
+      short_descs.append(level_3.next_sibling.next_element)
+    else:
+      short_descs.append("N/A")
+
+# Put all lists into a dictionary. i.e. make each list a dictionary item.
+pollution_dict = {
+  "date" : dates,
+  "temp" : temps,
+  "pollution_index" : poll_indices,
+  "short_desc" : short_descs,
+}
+
+# Create a Pandas DataFrame with our dictionary
+pollution_pd = pandas.DataFrame(pollution_dict)
+
+#### Convert the DataFrame to a CSV file using Pandas
+pollution_pd.to_csv("pollution_bangalore_10days.csv")
+
+# Voila! Checkout the CSV file generated in the current folder.
+# Good night. Good morning.. Whatever...
