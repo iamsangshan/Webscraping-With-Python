@@ -3,5 +3,5 @@
 - Get 10 Days air pollution report in Bangalore
 - Put it in a CSV file using Pandas library
 
-This project scrapes the data from the official weather website https://air-quality.com/place/india/bengaluru/f8edf853?lang=en&standard=aqi_us
+This project scrapes the data from the official site https://air-quality.com/place/india/bengaluru/f8edf853?lang=en&standard=aqi_us
 and convert the data into any useful form, for example, check air_pollution_report.csv file.
