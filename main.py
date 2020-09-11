@@ -1,5 +1,8 @@
 #Web scraping and creating a CSV file with Pollution data of a City
 
+# Autor: Sangeetha Shanmugam
+# June 2020
+
 #Get the air quality of a location and put into a CSV file
 
 #import all the modules required
